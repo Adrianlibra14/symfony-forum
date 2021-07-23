@@ -48,7 +48,7 @@ class PostController extends AbstractController
      */
     public function store(Request $request)
     {
-        if ($this->getUser()) {
+        if (!$this->getUser()) {
             return $this->redirectToRoute('home_index');
         }
 

@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
+    <div class="container">
+
+        <a href="{{ path("home_index") }}" class="navbar-brand">
+            Symfony Forum
+                                
+                    
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="mobile-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="{{ path("home_index") }}" class="nav-link {% if app.request.get('_route') == 'home_index' %} active {% endif %}">
+                        Home                                   
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path("posts_index") }}" class="nav-link {% if app.request.get('_route') == 'posts_index' %} active {% endif %}">
+                        Posts                                    
+                    </a>
+                </li>
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a href="{{ path("posts_store") }}" class="nav-link {% if app.request.get('_route') == 'posts_store' %} active {% endif %}">
+                            Create new post                
+                                                    
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path("app_logout") }}" class="nav-link">
+                            Logout                     
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{{ path("app_login") }}" class="nav-link {% if app.request.get('_route') == 'app_login' %} active {% endif %}">
+                            Login                
+                                                    
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path("app_register") }}" class="nav-link {% if app.request.get('_route') == 'app_register' %} active {% endif %}">
+                            Register       
+                                                    
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

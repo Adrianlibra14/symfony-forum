@@ -1,0 +1,100 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Posts
+
+{% endblock %}
+
+{% block body %}
+
+	{# post body #}
+	{% for post in pagination %}
+		<div class="card rounded mb-3">
+			<div class="card-body">
+				<h4 class="card-title">
+					<a href="{{ path("user_posts_index", {user: post.user.id}) }}" style="text-decoration: none;">
+						{{ post.user.username }}
+					</a>
+				</h4>
+				<h6 class="card-subtitle mb-2 text-muted">
+					{{ post.createdAt|date }}
+				</h6>
+				<p class="card-text">
+					{{ post.body }}
+				</p>
+				<div class="d-flex">
+					{% if app.user %}
+						{% if post.user.id == app.user.id %}
+							<div class="d-flex me-3">
+								<form action="{{ path("posts_update", {post: post.id}) }}" method="POST" class="me-2">
+									<button type="submit" style="color: #2780e3; padding: 0;margin: 0;border: none;background-color: #fff;" onmouseover="this.style.cssText='color: #1f66b6; padding: 0;margin: 0;border: none;background-color: #fff;'" onmouseout="this.style.cssText='color: #2780e3; padding: 0;margin: 0;border: none;background-color: #fff;'">
+										Edit
+
+									</button>
+								</form>
+								<form action="{{ path("posts_destroy", {post: post.id}) }}" method="POST" class="me-2">
+									<button type="submit" style="color: #2780e3; padding: 0;margin: 0;border: none;background-color: #fff;" onmouseover="this.style.cssText='color: #1f66b6; padding: 0;margin: 0;border: none;background-color: #fff;'" onmouseout="this.style.cssText='color: #2780e3; padding: 0;margin: 0;border: none;background-color: #fff;'">
+										Delete
+
+									</button>
+								</form>
+							</div>
+						{% endif %}
+
+						{% if post.dislikedBy(app.user) %}
+							<form action="{{ path("posts_like_store", {post: post.id}) }}" method="POST" class="me-2">
+								<button type="submit" style="color: #3bc525; padding: 0;margin: 0;border: none;background-color: #fff;" onmouseover="this.style.cssText='color: #1f66b6; padding: 0;margin: 0;border: none;background-color: #fff;'" onmouseout="this.style.cssText='color: #3bc525; padding: 0;margin: 0;border: none;background-color: #fff;'">
+									Like
+								</button>
+							</form>
+							<form action="{{ path("posts_dislike_destroy", {post: post.id}) }}" method="POST" class="me-2">
+								<button type="submit" style="color: #ff5654; padding: 0;margin: 0;border: none;background-color: #fff;" onmouseover="this.style.cssText='color: #1f66b6; padding: 0;margin: 0;border: none;background-color: #fff;'" onmouseout="this.style.cssText='color: #ff5654; padding: 0;margin: 0;border: none;background-color: #fff;'">
+									Remove dislike
+								</button>
+							</form>
+						{% endif %}
+
+						{% if post.likedBy(app.user) %}
+							<form action="{{ path("posts_dislike_store", {post: post.id}) }}" method="POST" class="me-2">
+								<button type="submit" style="color: #ff5654; padding: 0;margin: 0;border: none;background-color: #fff;" onmouseover="this.style.cssText='color: #1f66b6; padding: 0;margin: 0;border: none;background-color: #fff;'" onmouseout="this.style.cssText='color: #ff5654; padding: 0;margin: 0;border: none;background-color: #fff;'">
+									Dislike
+								</button>
+							</form>
+							<form action="{{ path("posts_like_destroy", {post: post.id}) }}" method="POST" class="me-2">
+								<button type="submit" style="color: #3bc525; padding: 0;margin: 0;border: none;background-color: #fff;" onmouseover="this.style.cssText='color: #1f66b6; padding: 0;margin: 0;border: none;background-color: #fff;'" onmouseout="this.style.cssText='color: #3bc525; padding: 0;margin: 0;border: none;background-color: #fff;'">
+									Remove like
+								</button>
+							</form>
+						{% endif %}
+
+						{% if post.likedBy(app.user) == false and post.dislikedBy(app.user) == false %}
+							<form action="{{ path("posts_like_store", {post: post.id}) }}" method="POST" class="me-2">
+								<button type="submit" style="color: #3bc525; padding: 0;margin: 0;border: none;background-color: #fff;" onmouseover="this.style.cssText='color: #1f66b6; padding: 0;margin: 0;border: none;background-color: #fff;'" onmouseout="this.style.cssText='color: #3bc525; padding: 0;margin: 0;border: none;background-color: #fff;'">
+									Like
+								</button>
+							</form>
+							<form action="{{ path("posts_dislike_store", {post: post.id}) }}" method="POST" class="me-2">
+								<button type="submit" style="color: #ff5654; padding: 0;margin: 0;border: none;background-color: #fff;" onmouseover="this.style.cssText='color: #1f66b6; padding: 0;margin: 0;border: none;background-color: #fff;'" onmouseout="this.style.cssText='color: #ff5654; padding: 0;margin: 0;border: none;background-color: #fff;'">
+									Dislike
+								</button>
+							</form>
+						{% endif %}
+
+					{% endif %}
+					<div class="ms-auto d-flex">
+
+						<p class="mb-0 me-2 fw-bold text-success">
+							{{ post.likes|length }}
+							Likes
+						</p>
+						<p class="mb-0 me-2 fw-bold text-danger">
+							{{ post.dislikes|length }}
+							Dislikes
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}{# display navigation #}<div class="navigation">
+		{{ knp_pagination_render(pagination) }}</div>
+{% endblock %}

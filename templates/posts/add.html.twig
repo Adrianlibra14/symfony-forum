@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Add
+    
+{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-3 font-weight-normal">
+        Create new post
+    </h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.body, {
+        label: false
+    }) }}
+            
+    <button type="submit" class="btn btn-lg btn-primary rounded mt-3">
+        Post
+    </button>
+    {{ form_end(form) }}
+{% endblock %}

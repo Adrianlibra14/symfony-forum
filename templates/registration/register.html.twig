@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-3 font-weight-normal" >Register</h1>    
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.username) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        
+        {{ form_row(registrationForm.agreeTerms, {'attr': {'class': 'mx-2'}, 'label_attr': {'class': 'h4'}}) }}
+
+        <button type="submit" class="btn btn-lg btn-primary rounded mt-3">Register</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
